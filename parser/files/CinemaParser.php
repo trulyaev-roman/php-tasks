@@ -14,11 +14,12 @@ class CinemaParser
     protected $content; // содержимое файла result.txt
     protected $schedule = []; // содержит график показа по отдельным фильмам
 
-    public function __construct ($content)
+    public function __construct($content)
     {
         $this->content = $content;
     }
-    protected function makeScheduleByFilms ()
+
+    protected function makeScheduleByFilms()
     {
         $startPos = strpos($this->content, 'block_afisha');
         $endPos = strpos($this->content, 'block_skyblue');
@@ -35,28 +36,28 @@ class CinemaParser
         }
         return $schedule;
     }
-    public function getSchedule ()
+
+    public function getSchedule()
     {
-        foreach ($this->makeScheduleByFilms() as $film => $timetable)
-        {
-            $this->addToSchedule($timetable, $film);
-        }
+        array_walk(
+            $this->makeScheduleByFilms(),
+            function ($timing, $film_name) {
+                $this->addToSchedule($timing, $film_name);
+            }
+        );
         return $this->schedule;
     }
-    protected function addToSchedule ($timetable, $film)
+
+    protected function addToSchedule($timetable, $film)
     {
-        foreach ($timetable as $cinema => $date)
-        {
-            if(!array_key_exists($cinema, $this->schedule))
-            {
+        foreach ($timetable as $cinema => $date) {
+            if (!array_key_exists($cinema, $this->schedule)) {
                 $this->schedule[$cinema] = [];
             }
-            if(!array_key_exists($date, $this->schedule[$cinema]))
-            {
+            if (!array_key_exists($date, $this->schedule[$cinema])) {
                 $this->schedule[$cinema][$date] = [];
             }
-            if(!in_array($film, $this->schedule[$cinema][$date]))
-            {
+            if (!in_array($film, $this->schedule[$cinema][$date])) {
                 $this->schedule[$cinema][$date][] = $film;
             }
         }
