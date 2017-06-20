@@ -41,9 +41,7 @@ class CinemaParser
     {
         array_walk(
             $this->makeScheduleByFilms(),
-            function ($timing, $film_name) {
-                $this->addToSchedule($timing, $film_name);
-            }
+            [$this, 'addToSchedule']
         );
         return $this->schedule;
     }
