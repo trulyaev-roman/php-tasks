@@ -6,12 +6,20 @@ class First
     {
         echo __CLASS__."\n";
     }
+    public static function needMessage()
+    {
+        static::printMessage();
+    }
 }
 
 class Second extends First
 {
+    public static function printMessage()
+    {
+        echo __CLASS__."\n";
+    }
 }
 
-First::printMessage();
+First::needMessage();
 
-Second::printMessage();
+Second::needMessage();
