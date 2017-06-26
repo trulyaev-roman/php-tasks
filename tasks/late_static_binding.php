@@ -1,25 +1,46 @@
 <?php
 
+//class First
+//{
+//    public static function printMessage()
+//    {
+//        echo __CLASS__."\n";
+//    }
+//    public static function needMessage()
+//    {
+//        self::printMessage();
+//    }
+//}
+//
+//class Second extends First
+//{
+//    public static function printMessage()
+//    {
+//        echo __CLASS__."\n";
+//    }
+//}
+//
+//First::needMessage();
+//
+//Second::needMessage();
+
+
 class First
 {
-    public static function printMessage()
+    protected static function getClass()
     {
-        echo __CLASS__."\n";
+        return get_called_class();
     }
-    public static function needMessage()
+    public static function printClass()
     {
-        static::printMessage();
+        echo static::getClass()."\n";
     }
 }
 
 class Second extends First
 {
-    public static function printMessage()
-    {
-        echo __CLASS__."\n";
-    }
 }
 
-First::needMessage();
+First::printClass();
 
-Second::needMessage();
+Second::printClass();
